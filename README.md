@@ -48,6 +48,8 @@ Set `LOGDNA_KEY` variable to your LogDNA ingestion key. Optionally, you can use 
         * `event.id`: `id` of each `CloudWatch Log` encoded inside `awslogs.data` in `base64`
         * `log.group`: `LogGroup` where the log is coming from
         * `log.stream`: `LogStream` where the log is coming from
+ * `LOGDNA_PLATFORM_APP_NAME`: Custom Ingestion application name *(Default: AWS_LAMBDA)*
+ 
 
 **Notes**:
 The following optional environment variables can also be used to tune this Lambda function for specific use cases. 
