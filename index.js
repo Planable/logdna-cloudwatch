@@ -20,6 +20,8 @@ const DEFAULT_HTTP_ERRORS = [
     , 'ENOTFOUND'
 ];
 
+const LOGDNA_PLATFORM_APP_NAME = process.env.LOGDNA_PLATFORM_APP_NAME || 'AWS_LAMBDA';
+
 // Get Configuration from Environment Variables
 const getConfig = () => {
     const pkg = require('./package.json');
@@ -62,10 +64,14 @@ const prepareLogs = (eventData, log_raw_event) => {
 
         const eventLog = {
             timestamp: event.timestamp
-            , file: eventData.logStream
+            // !!! IMPORTANT, NOT DOCUMENTATED ANYWARE, DO NOT UPDATED
+            // THIS PARAMETER WILL BE USED BY LOGDNA PLATFORM AS APP PARAMETER, WE OVERWRITE TO HAVE ONLY ONE FOR EACH LOG LINE.
+            // THE ORIGINAL FILE NAME WILL BE STORED IN META DATA AS original_file KEY
+            , file: LOGDNA_PLATFORM_APP_NAME
             , meta: {
                 owner: eventData.owner
                 , filters: eventData.subscriptionFilters
+                , original_file: eventData.logStream
             }, line: JSON.stringify(Object.assign({}, {
                 message: event.message
             }, eventMetadata))
