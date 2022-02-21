@@ -62,10 +62,14 @@ const prepareLogs = (eventData, log_raw_event) => {
 
         const eventLog = {
             timestamp: event.timestamp
-            , file: eventData.logStream
+            // !!! IMPORTANT, NOT DOCUMENTATED ANYWARE, DO NOT UPDATED
+            // THIS PARAMETER WILL BE USED BY LOGDNA PLATFORM AS APP PARAMETER, WE OVERWRITE TO HAVE ONLY ONE FOR EACH LOG LINE.
+            // THE ORIGINAL FILE NAME WILL BE STORED IN META DATA AS original_file KEY
+            , file: 'AWS_LAMBDA'
             , meta: {
                 owner: eventData.owner
                 , filters: eventData.subscriptionFilters
+                , originalFile: eventData.logStream
             }, line: JSON.stringify(Object.assign({}, {
                 message: event.message
             }, eventMetadata))
